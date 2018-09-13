@@ -1,1 +1,3 @@
 # yet-another-internet-radio
+
+![alt text](https://lh3.googleusercontent.com/az_jqX94gSRCRh08qAdz9YWhj-rkCq8v6jbzf7Px8j91voxX_NexaX4UREHGvVfS1R92a1l_9c30b2oxfoOXtXnt9zpUHnHgK56jFrc6CIU4oUKP8mkjKX3SNbvESBg4Qg8lkJuLmbg=w1054-h698-no0
