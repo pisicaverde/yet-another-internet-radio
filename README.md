@@ -4,21 +4,69 @@ Another semi-decent internet radio, based on VS1053 decoder and ESP8266 MCU, mad
 
 It plays anything that VS1053 may decode.
 
-## Features:
-- ESP8266 MCU
-- VS1053 decoder
-- 23LC1024 1 Mbit SRAM
-- 2x3W PAM8034 amplifier
-- 20 x 4 alphanumeric LCD
-- 3 buttons
+[![yet-another-internet-radio](http://img.youtube.com/vi/FiWzWgzm_9E/0.jpg)](http://www.youtube.com/watch?v=FiWzWgzm_9E "yet-another-internet-radio")
 
-Station list is stored into a remote hosted JSON file: [irconfig.dat](http://pisicaverde.ro/irconfig.dat)
-(.dat extension used since cPanel is weirdly caching .json files)
+## Featuring:
+* a streaming media player built with **ESP8266** MCU, **VS1053** for mp3 decoding and **1 Mbit buffer**;
+* time update from `pool.ntp.org`;
+* in standby, it shows current time with big fonts;
+* during play, it displays the current time, stream title, current song, bitrate, wifi level, buffer level;
+* it plays fine up to 196kbps streams;
+* configurable via wifi using WiFiManager by Tzapu.
+
+The station list is stored into a remote hosted JSON file: [irconfig.dat](/irconfig.dat).
+
+Please note there are some Romanian comments left into the source. I'll try to clean it up.
 
 Where it all started: [Arduino WebPlayer by Vassilis Serasidis](https://www.serasidis.gr/circuits/Arduino_WebRadio_player/Arduino_WebRadio_player.htm)
 
-![Schematics](https://lh3.googleusercontent.com/N3HAeYrSaEksZR7SAeC6bDKn3Zf736JcLFpJFX6m2_E5M2fhwSd6ob9YXm2dyn2qbhbEk39nLgL0Mvkkt5uZxvg_AR-2KNuTy6MeDfw3EU7If4DtibhLjMVV3SqZWCwt6JYe71qrP_KBDPVcBpP2rXTrXbCv-EroglRehAdI-0lWvGd7bT0UhcEYckQvQHHceN9txJOYZyKJrnPc9_9NUyHTcKbtZy3lVfEgtvv-6SuXpjy6Rxeh2Co4V333BUSAjwYJ9blcU1dFGI55C9QSsqvbakejQgssRWB6J0MOLdp1oGD8sXnVeORWIBDjfPRc9lQFc1WHz5tpq01dXfUR8ZwUUIH7xRjNVX53RNR8GW-d1dttV-qaaORuJH-vpT_G4RiBZzCq2WoQRtKoe2EcPMQpbcjJLHbnfizS96ViashzFZQgKnjh_updBHZ6WdNo4yvb6DNE9KH7Rfx2Nu1glKxyg26Z2OniJJfqbZbGSRbobMzX7zRZD4vVMFLVpaJAejQNc0P2krOb1jypTHbRwyFhh5E0S4UL2KxGJ5kTkvFT9jd0C3QUMBC4DopTRMuR20cu9pSzZ4ADvh8jqxdJaewrtuycekCb-6lCSirWvlzOXoMqMyyQeWiiIMq8O8ZP=w1031-h585-no)
+## Schematics
+Could not be easier:
+![Yet Another Internet Radio schematics](https://raw.githubusercontent.com/pisicaverde/yet-another-internet-radio/master/images/schema1.jpg)
+Everything works at 3.3V, excepting the 20x4 lcd that needed the level shifter.
 
+#### Bill of materials:
+- [WeMos NodeMcu with ESP8266](https://www.banggood.com/Wemos-Nodemcu-Wifi-For-Arduino-And-NodeMCU-ESP8266-0_96-Inch-OLED-Board-p-1154759.html): $10 - The small 128x64 oled is unusable. The breakout exposes all the pins;
+- [VS1053 breakout](https://www.dx.com/p/sd-card-mp3-music-shield-audio-expansion-board-white-171917): $15 - [it was buggy](https://blog.devmobile.co.nz/2014/04/27/netduino-and-freaduino-mp3-music-shield/);
+- [23LC1024 breakout](https://www.mikroe.com/sram-click): $15 - unexplainable expensive since you may find a $2 [SO8 package](https://www.tme.eu/en/details/23lc1024-i_sn/serial-sram-memories-integrated-circ/microchip-technology/)
+- [2x3W PAM8403 amplifier](https://www.banggood.com/PAM8403-2-Channel-USB-Power-Audio-Amplifier-Module-Board-3Wx2-Volume-Control-p-1068215.html?cur_warehouse=CN): $1.5 - noisy, not recommended;
+- [12V power source](https://www.banggood.com/Mini-100W-Switching-Power-Supply-180-240V-To-12V-8_3A-For-LED-Strip-Light-p-985455.html): $14
+- [step down converter](https://www.banggood.com/10Pcs-LM2596-DC-DC-Adjustable-Step-Down-Power-Supply-Module-p-963307.html): $1
+- [20 x 4 alpha lcd with i2c expander](https://www.dx.com/p/arduino-iic-i2c-serial-3-2-lcd-2004-module-display-138611) - $10
+- some level converters and switches (less than $5)
 
-Photos with some unfinished works:
-![Photos](https://lh3.googleusercontent.com/1XV7Ls_McwR1Gsm5v5TV9fn4OgXxtyYwKhF4N0pbtUxZkLK-AJ_3BbRByZnaPsFHGnRmrSB4-NM1-y-37bpOmzYlDcUIYFG7DqUqtL0_aSErIsEDM2pZiXgCsvH87-BkYxhr2iyYx-zTD8TXKMG58-4CCrYCn_lhfvrpX_nn2MYjbkJNtugyFv1fWExW2Bc6kh7nYdf5U8Fsx8CgqCSo2tDRnU97J3-5wp0dA2dPwUVcuIfrcToctCsdJF6wKuKJT5sje99FZ4KVaTyUMkoYHvGARLS6fgmmm_1_-t4C1OFmWFnlYjiODMpxABFgRTQQP_K6War4XQ0XgWAAMSD2R5566XFzVjT8VCEhwcv2hvu656tV3AqROD9XF2EVWQmFERW8PdQ_JiIjAfo4UP52o01zxlj-B2W53liT_x_p-dtmv_Slv4s4kLjh0ZlWisIg1fRsYOcFMaMVZzC6V024FsJ9u4Ww9TbMUWU1pHQmUdj1dpWaxGULvnSKboC-iMU_DtGAkja28lw0pITdC6X-qJmEoagsvLOh0AU2MbtlxJYBaAKaLo73nrycmyqBV9Wee4x7HW1bUGSBvzzU9vpOPc08n7-g-ZBwN0pAT_I6vdwHhFvE_Lobo9MoU5z2d7F_GdAcbDQUDBn6dabq2U0O-rFYV-iZ16nE77qZSeS6WKdgsT75wy-mJ3CNew=s1080-no)
+So practically the player is made-in-China. Except a beautiful Ward Airline 1946 bakelite case ($5 on Ebay).
+
+## Software stuff
+There are many approaches on internet, but none worked for me, so I had to build it from scratch.
+* [minimum working program](/src/minimum): a media player with no interface. The wifi user/pass and station are hardcoded. Just to understand the working principle.
+* [full app](/src/current) -- big and not really convenient to understand
+* some [tools](/src/tools) you may need
+
+### Bitrate
+It plays fine up to 196 kbps streams; the screen update is taking a few ms, while blocking the MCU and it won't play at higher bitrates. With all I/O commented out, it may go up to 320 kbps.
+
+### Config mode:
+The web radio uses WifiManager by Tzapu'. In case it cannot connect to the last hotspot, it enters config mode.
+You can force entering config mode by pressing Button 1 at startup.
+
+The station list is held into a JSON file, stored remote: [irconfig.dat](/irconfig.dat). The config file URL is entered when in config mode. If you're using cPanel, it should not be named with .json extension, since cPanel is caching it weirdly.
+
+Do not leave Enter/New line chars in your json, or ArduinoJson library may crash unexpected.
+
+## Literature:
+- **[How to parse MP3 Streams](http://www.smackfu.com/stuff/programming/shoutcast.html)**
+- [the VS1053 board I was using](http://www.elecfreaks.com/wiki/index.php?title=Freaduino_MP3_Music_Shield)
+- [Adafruit VS1053 library](https://github.com/adafruit/Adafruit_VS1053_Library)
+- [What is the circular buffer](https://en.m.wikipedia.org/wiki/Circular_buffer)
+- [working with 23LC1024 from ESP8266](https://github.com/paulenuta/ESP_23LC1024)
+- [23LC1024 datasheet](http://ww1.microchip.com/downloads/en/DeviceDoc/20005142C.pdf)
+- [how to use PROGMEM](http://www.gammon.com.au/progmem)
+- [one AnalogIn, multiple buttons](https://www.baldengineer.com/5-voltage-divider-circuits.html)
+- [computing multiple voltage dividers](http://www.loosweb.de/calculator/en/muteiler.html)
+- [how to make SD class coexist with SPIFFS](https://github.com/esp8266/Arduino/issues/1524#issuecomment-253969821) and (https://github.com/esp8266/Arduino/issues/2281#issuecomment-258706478)
+- [custom character generator](https://omerk.github.io/lcdchargen/)
+- [the super font](https://liudr.wordpress.com/libraries/phi_super_font/) - in the end I used mine implementation, but here it was the first idea
+
+## Issues
+- [ ] sometimes, ESP8266 crashes after connection to stream
