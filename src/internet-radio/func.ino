@@ -31,7 +31,7 @@ if ( (usedBuffer() < DATA_BUFFER_SIZE / 3) && (PLAYERPAUSE == false) ) { // daca
 SCREEN_UPDATE = true;
 
 if ((usedBuffer() < VS_BUFFER_SIZE)  && (PLAYERPAUSE == false) ) { emptyBufferCount++; Serial.print(F("--> empty buffer count = ")); Serial.println(emptyBufferCount); } 
-                              else { emptyBufferCount = 0; }
+                                                            else { emptyBufferCount = 0; }
                               
 if (keyLast != 0) {Serial.print(F("--> Key=")) ; Serial.print(keyLast); Serial.print(F("   A0=")); Serial.println(keyVal); }
 
@@ -58,6 +58,9 @@ void forceDisconnect() {
   Serial.print(F("--> Disconnecting from stream if previously connected: "));
   while(mp3client.connected()) { while(mp3client.available()) { mp3client.read(); Serial.print("."); } } // singura posibilitate de a goli ce mai era in buffer
   mp3client.stop();  Serial.println(F("\r\n--> Disconnected and buffer flushed.")); delay(500);
+
+  // resetam variabilele
+  metaStationName = "";   metaDataTxt = "";  metaBR = "";
 }
 
 
@@ -71,9 +74,10 @@ void screenUpdate() {
   if (PLAYERPAUSE == true) 
            { 
             if (millis() < lcdStandBy) { lcd.backlight(); showStdStat(); } // afiseaza meniul de selectie post
-                                  else { lcd.noBacklight(); 
-                                         // if ( second() %2 ) lcd.clear(); 
-                                         showClockScr(); }
+                                  else { lcd.noBacklight();  
+                                         if (FIRSTCLOCK) { lcd.clear(); FIRSTCLOCK = false; } // folosim acest flag sa stergem ecranul doar la revenirea din showStdStat; daca am pune lcd.clear direct, ar flickeri ecranul
+                                         showClockScr(); 
+                                         }
            } 
            else { showPlayScr(); }
 
@@ -84,6 +88,7 @@ void screenUpdate() {
 
 void showStdStat() {
 
+  FIRSTCLOCK = true;
   if (stationNow == prevStationNow) return; // nu s-a schimbat postul? nu avem ce sa redesenam 
   
   lcd.clear();
@@ -261,7 +266,7 @@ void streamConnect() {
   Serial.print(F("--> MP3 data bytes between metadata blocks: metaInt = ")); Serial.println(metaInt); 
 
   lcd.clear();
-  screenUpdate();
+  //screenUpdate();
 }
 
 

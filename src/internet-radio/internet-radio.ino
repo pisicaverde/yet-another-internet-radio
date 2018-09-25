@@ -84,8 +84,8 @@ boolean SCREEN_UPDATE     = false; // redraw-ul ecranului dureaza, asa ca setam 
 boolean PLAYERPAUSE       = true;  // status - daca playeaza sau e pauzat
 unsigned long lcdStandBy  = 0 ;    // cand schimbam posturile in stand-by, contine timestampul dupa care se revine la ceas
 #define SB_IDLE           4000     // cand schimbam posturile in stand-by, contine durata [ms] dupa care se revine la ceas
-#define SOFTDEBOUNCE      250       // dupa cat timp [ms] acceptam apasarea de butoane in standby, calculat de la prima apasare
-
+#define SOFTDEBOUNCE      250      // dupa cat timp [ms] acceptam apasarea de butoane in standby, calculat de la prima apasare
+boolean FIRSTCLOCK        = true; // 
 
 // watchdog flags
 byte emptyBufferCount = 0 ; // contor pentru de cate ori s-a gasit succesiv bufferul complet gol in func1Hz()
@@ -137,17 +137,11 @@ void setup() {
                       }   
 
   wifiCustConnect();      // conectare la wifi; daca esueaza, genereaza hotspot unde se introduce si salveaza ssid/pass/ URL json configurare
-
   lcdCreateChars();       // creaza caracterele grafice pt bigscreen
-
-  updateTime();           // update ntp
-
+  //updateTime();           // update ntp
   getStationData();       // 1) citeste din SPIFFS url-ul unde se afla lista de posturi, 2) o descarca de pe net
-
   jsonParseData();        // parseaza jsonul descarcat de pe net si salveaza datele in struct
-
   stationRead();          // citim din eeprom id-ul postului cu care se incepe
-
   emptyBufferCount = 10;  // asta ca sa fortam un forcefill la prima pornire
   
   ticker1Hz.attach_ms(1000, func1Hz); // la fiecare 1 s se ruleaza functia func1Hz
@@ -171,14 +165,12 @@ if (PLAYERPAUSE == false ) {
    // daca a picat netul, continuam sa cantam daca mai avem ce, si in paralel conectare.
    if (WiFi.status() != WL_CONNECTED) { Serial.print(F("--> Disconnected from WiFi, trying to reconnect.")); wifiCustConnect(); }
 
-   // daca s-a deconectat, incercam o reconectare
-   if (!mp3client.connected()) { Serial.println(F("\r\n--> Connection lost from stream.")); mp3client.stop(); delay(100); streamConnect(); } 
-
    // de obicei facem bufferFill; doar daca e grava, facem ForceFill
-   if (emptyBufferCount >= 4) { /*forceDisconnect();*/ bufferForceFill();  }  else { bufferFill(); }   
+   if (emptyBufferCount >= 4) { forceDisconnect(); bufferForceFill(); }  else { bufferFill(); }  
+
 }
 
-   // daca s-a facut momementul pentru redesenare ecran
+   // daca s-a facut momentul pentru redesenare ecran
    if (SCREEN_UPDATE == true) { screenUpdate(); }
 
 }

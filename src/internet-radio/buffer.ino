@@ -14,11 +14,10 @@ void bufferForceFill() {
   unsigned int waitMaxTime = 2000 * ((DATA_BUFFER_SIZE * 8 )/ (metaBR.toInt() * 1000) ) ;  // asteptam umplerea completa cel mult dublu fata de timpul de golire normala a bufferului
   Serial.print(F("--> waitMaxTime = ")) ; Serial.print(waitMaxTime); Serial.println(F(" ms"));
   
-  while (usedBuffer() < DATA_BUFFER_SIZE-1)       // cat timp mai e loc in buffer,
+  while (usedBuffer() < DATA_BUFFER_SIZE-1)       // cat timp mai e loc de bagat in buffer,
     { 
       proc1Byte();                                // citim un byte de la server
-      if (!(usedBuffer() % 1000)) screenUpdate(); // updatam progress bar-ul, dar nu foarte des, pentru redraw-ul ecranului DUREAZA!
-      
+      if (second() %2 ) screenUpdate();           // updatam progress bar-ul la fiecare 1 s, dar nu foarte des, pentru redraw-ul ecranului DUREAZA!
       if (emptyBufferCount >= 30) { // nu a venit absolut nimic de 30 de ori, trecem la postul urmator  !!!!!!!!!!!!!!!!!!!!
                                     Serial.println(F("--> Buffer emtpy for 30 tries, switching to next station.")); 
                                     switchNext(); 
@@ -34,6 +33,7 @@ void bufferForceFill() {
   BUFFER_EMPTY = false;
   emptyBufferCount = 0; // daca cumva a mai fost modificata valoarea de o functie din timer
   Serial.println(F("--> END of BufferForceFill"));
+
 }
 
 

@@ -1,20 +1,3 @@
-unsigned char chrMus[8] = {
-  0b00100,
-  0b00110,
-  0b00101,
-  0b00101,
-  0b00100,
-  0b01100,
-  0b11110,
-  0b01100
-};
-
-
-
-
-
-
-
 const unsigned char chrDef[6][8] PROGMEM = {
 { 0,  0,  0,  0,  3, 15, 15, 31}, // colt 2
 { 0,  0,  0,  0, 24, 30, 30, 31}, // colt 1
@@ -67,9 +50,6 @@ unsigned char tmp[8];
     }
  lcd.createChar(i, tmp);
  }
-
-// mai putem crea un singur caracter
-lcd.createChar(7, chrMus);
 
 }
 
