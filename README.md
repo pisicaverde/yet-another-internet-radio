@@ -54,7 +54,7 @@ There are many approaches on internet, but none worked for me, so I had to build
 It plays fine up to 196 kbps streams; the screen update is blocking the MCU for a few ms, so it won't play higher bitrate streams. With all lcd and serial commented out, it may play up to 320 kbps streams.
 
 ### Config mode:
-The web radio uses WifiManager by Tzapu'. In case it cannot connect to the last known hotspot, it enters config mode. You can force entering config mode by pressing Button1 at startup.
+The web radio uses WifiManager by Tzapu'. In case it cannot connect to the last known hotspot, it enters config mode. You can force entering config mode by holding Button1 during startup.
 
 The station list is held into a JSON file, stored remote: [irconfig.dat](/irconfig.dat). The config file URL is entered in config mode. If you're using cPanel to host the configuration file, it should not be named with .json extension, since cPanel is caching it weirdly.
 
