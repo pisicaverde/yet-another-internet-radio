@@ -79,5 +79,5 @@ Do not leave `Enter/New line` chars in your json, or ArduinoJson library may cra
 ## To do & issues
 - [ ] to fix some ESP8266 crashes after connection to stream
 - [ ] add bass/treble control by VS1053
-- [ ] test MIDI playback
-- [ ] test mp3 playback from network
+- [ ] add MIDI playback
+- [ ] add mp3 playback from LAN
