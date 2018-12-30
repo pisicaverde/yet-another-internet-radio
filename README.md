@@ -1,3 +1,5 @@
+:stop_sign: **This project is no longer in use. You may check its successor: [yet-another-internet-radio-ESP32](https://github.com/pisicaverde/yet-another-internet-radio-ESP32)** :stop_sign:
+
 # yet-another-internet-radio
 
 Another semi-decent internet radio, based on VS1053 decoder and ESP8266 MCU, made from scratch solely for my midnight engineering sessions.
